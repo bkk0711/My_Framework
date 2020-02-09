@@ -91,8 +91,33 @@
 			// Vì sau vòng lặp các biến $field_list và $value_list sẽ thừa một dấu , nên ta sẽ dùng hàm trim để xóa đi
    			$sql = 'INSERT INTO '.$table. '('.trim($field_list, ',').') VALUES ('.trim($value_list, ',').')';
    			return $this->execute($sql); 
-
 		}
-
+		//Phương thức cập nhật CSDL
+		/*
+		$db->UpdateData('user', array(
+    		'name' => 'Nguyen Van B'
+		), 'id = 1');
+		*/
+		public function UpdateData($table, $tbldata, $where)
+		{
+			$sql = '';
+			foreach ($tbldata as $key => $value)
+			{
+            	$sql .= "$key = '".$this->conn->real_escape_string($value)."',";
+        	}
+        	// Vì sau vòng lặp biến $sql sẽ thừa một dấu , nên ta sẽ dùng hàm trim để xóa đi
+        	$sql = 'UPDATE '.$table. ' SET '.trim($sql, ',').' WHERE '.$where;
+        	return $this->execute($sql); 
+		}
+		//phương thức xóa CSDL
+		/*
+		$db->RemoveData('user', 'id = 1');
+		*/
+		public function RemoveData($table, $where)
+		{
+			$sql = "DELETE FROM $table WHERE $where";
+			return $this->execute($sql);
+		}
+		
 }
 ?>
